@@ -103,5 +103,6 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-# Ignore folder
+# Custom ignore
 Ignore/
+test.py
