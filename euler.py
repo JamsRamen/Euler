@@ -46,15 +46,17 @@ def probablePrime(n, k):
     pass
 
 # return the exponents of the prime factorization of n
+# return a map of primes to their exponents
 def factorize(n):
     pass
     
 # return a sorted list of the divisors of n
 def divisors(n):
     pass
-    
-def sigma(n, d):
-    pass
+
+# return sum[p^e||n] e^k
+def sigma(n, k):
+    return 
     
 def totient(n):
     pass
