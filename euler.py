@@ -139,6 +139,14 @@ def mobius(n):
         r *= -1
     return r
     
+def radical(n):
+    v = factorize(n)
+    r = 1
+    for p in v:
+        r *= p
+        
+    return r
+
     
 # combinatorics
 
