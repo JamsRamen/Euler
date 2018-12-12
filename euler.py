@@ -19,10 +19,11 @@ def gcd(*arg):
         r = gcd(r, arg[i])
     return r
 
+
 _isPrime = []
 _primes = []
     
-def sieve(n):
+def sieve(n=10000000):
     global _isPrime, _primes
     _isPrime = [True] * n
     _isPrime[0] = _isPrime[1] = False
@@ -43,16 +44,24 @@ def sieve(n):
 
 def primeList():
     global _primes
+    if len(_primes) < 10:
+        sieve()
     return _primes
 
 def isPrime(n):
     global _isPrime
-    if n >= 0 and n < len(_isPrime):
+    if len(_isPrime) < 10:
+        sieve()
+    if n < 0:
+        return False
+    if n < len(_isPrime):
         return _isPrime[n]
-    return None
+    return sigma(n, 0) == 2
 
 def isPrimeList():
     global _isPrime
+    if len(_isPrime) < 10:
+        sieve()
     return _isPrime
             
 def modpow(b, e, m):
@@ -70,7 +79,21 @@ def probablePrime(n, k):
 
 # return a map from primes to exponents in the prime factorization of n
 def factorize(n):
-    pass
+    primes = primeList()
+    primev = isPrimeList()
+    
+    r = {}
+    for p in primes:
+        if p ** 2 > n:
+            break
+        if n < len(primev) and primev[n]:
+            break
+        while n % p == 0:
+            r[p] = r.get(p, 0) + 1
+            n //= p
+    if n != 1:
+        r[n] = r.get(n, 0) + 1
+    return r
 
 # return the exponents of the prime factorization of n (up to the sieve size)
 def primeExponents(n):
@@ -80,17 +103,37 @@ def primeExponents(n):
 def divisors(n):
     pass
 
+# return sum[d|n] d^k
+def sigma(n, k):
+    v = factorize(n)
+    r = 1
+    for p, e in v.items():
+        if k != 0:
+            r *= (p ** (k*(e+1)) - 1) // (p**k - 1)
+        else:
+            r *= e+1
+    return r
+
 # return sum[p^e||n] e^k
-def sigma(n, d):
-    pass
+def omega(n, k):
+    v = factorize(n)
+    r = 0
+    for p, e in v.items(): 
+        r += e ** k
+    return r
     
 def totient(n):
-    pass
+    v = factorize(n)
+    r = n
+    for p, e in v.items():
+        r *= p-1
+        r //= p
+    return r
 
 def mobius(n):
     r = 1
-    factorization = factorize(n)
-    for p, e in factorization:
+    v = factorize(n)
+    for p, e in v.items():
         if e > 1:
             return 0
         r *= -1
@@ -106,7 +149,16 @@ def factorial(n):
     return r
 
 def choose(n, r):
-    pass
+    if 2*r > n:
+        return choose(n, n-r)
+    
+    res = 1
+    
+    for i in range(0, r):
+        res *= n-i
+        res //= i+1
+    
+    return res
 
 def permute(n, r):
     r = 1
