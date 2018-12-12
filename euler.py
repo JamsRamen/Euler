@@ -64,15 +64,6 @@ def isPrimeList():
         sieve()
     return _isPrime
             
-def modpow(b, e, m):
-    r = 1
-    while e > 0:
-        if e % 2 == 1:
-            r = r*b % m
-        b = b*b % m
-        e //= 2
-    return r
-
 # run Miller-Rabin primality test k times
 def probablePrime(n, k):
     pass
