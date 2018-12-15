@@ -87,13 +87,44 @@ def factorize(n):
     return r
 
 # return the exponents of the prime factorization of n (up to the sieve size)
+# if n includes a prime larger than the sieve size, result[-1] will be 0
 def primeExponents(n):
-    pass
+    primes = primeList()
+    primev = isPrimeList()
     
-# return a sorted list of the divisors of n
-def divisors(n):
-    pass
-
+    r = []
+    for p in primes:
+        r.append(0)
+        while n % p == 0:
+            r[-1] += 1
+            n //= p
+        if n == 1:
+            break
+    if n != 1:
+        r.append(0)
+    return r
+    
+# return a list of the divisors of n
+def divisors(n, sort=True):
+    if type(n) is int:
+        return divisors(factorize(n))
+    if len(n) == 0:
+        return [1]
+    
+    p = next(iter(n))
+    e = n[p]
+    
+    del n[p]
+    rec = divisors(n, False)
+    n[p] = e
+    
+    r = [d * p**i for d in rec for i in range(e+1)]
+    
+    if sort:
+        r.sort()
+    return r
+    
+    
 # return sum[d|n] d^k
 def sigma(n, k):
     v = factorize(n)
@@ -105,7 +136,7 @@ def sigma(n, k):
             r *= e+1
     return r
 
-# return sum[p^e||n] e^k
+# return sum[p^e||n, e != 0] e^k
 def omega(n, k):
     v = factorize(n)
     r = 0
