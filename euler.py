@@ -19,6 +19,17 @@ def gcd(*arg):
         r = gcd(r, arg[i])
     return r
 
+def extendedGcd (a, b):
+    x, y, u, v = 0, 1, 1, 0
+    while a != 0:
+        q, r = b//a, b%a
+        m, n = x-u*q, y-v*q
+        b, a, x, y, u, v = a, r, u, v, m, n
+        
+    return x, y, b
+
+def modInv (n, mod):
+    return extendedGcd(n, mod)[0] % mod
 
 _isPrime = []
 _primes = []
