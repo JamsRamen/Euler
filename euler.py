@@ -31,6 +31,13 @@ def extendedGcd (a, b):
 def modInv (n, mod):
     return extendedGcd(n, mod)[0] % mod
 
+# Solve the congruence relation specified by the Chinese Remainder Theorem
+def crt (x, m, y, n, *args):
+    if (len(args) == 0):
+        return (x * n * modInv(n, m) + y * m * modInv(m, n)) % (m * n)
+    else:
+        return crt(crt(x, m, y, n), m*n, *args)
+
 _isPrime = []
 _primes = []
     
