@@ -41,7 +41,7 @@ def crt (x, m, y, n, *args):
 _isPrime = []
 _primes = []
     
-def sieve(n=10000000):
+def sieve(n=1000000):
     global _isPrime, _primes
     _isPrime = [True] * n
     _isPrime[0] = _isPrime[1] = False
