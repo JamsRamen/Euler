@@ -1,5 +1,39 @@
 import math
 
+# documentation
+
+def eulerHelp():
+    return """\
+gcd(*arg)               greatest common divisor of all args
+extendedGcd(a, b)       (x, y, gcd) such that ax + by = gcd
+modInv(n, m)            multiplicative inverse of n mod m
+crt(x, m, y, n, ...)    solve for a: a = x (mod m), a = y (mod n), ...
+sieve(n)                sieve for primes (void return)
+primeList()             return list of primes after sieve
+isPrime(n)              is n prime?
+isPrimeList()           return array v such that v[n] = isPrime(n)
+probablePrime(n, k)     run Miller-Rabin primality test k times
+factorize(n)            return a map from primes to exponents
+                            in the prime factorization of n
+primeExponents(n)       return the exponents of the prime factorization of n
+                            if n includes a prime larger than the sieve size,
+                            result[-1] will be 0
+divisors(n, s)          return a list of the divisors of n
+                            sort if s is true
+sigma(n, k)             return sum[d|n] d^k
+omega(n, k)             return sum[p^e||n, e != 0] e^k
+totient(n)              return the totient of n
+mobius(n)               return the mobius of n
+radical(n)              return the radical of n
+
+factorial(n)            return the factorial of n
+permute(n, r)           return n permute r
+choose(n, r)            return n choose r
+
+nextPermutation(v)      return the next permutation of v
+prevPermutatoin(v)      return the previous permutation of v\
+"""
+
 # number theory
 
 def gcd(*arg):
@@ -28,10 +62,9 @@ def extendedGcd (a, b):
         
     return x, y, b
 
-def modInv (n, mod):
-    return extendedGcd(n, mod)[0] % mod
+def modInv (n, m):
+    return extendedGcd(n, m)[0] % m
 
-# Solve the congruence relation specified by the Chinese Remainder Theorem
 def crt (x, m, y, n, *args):
     if (len(args) == 0):
         return (x * n * modInv(n, m) + y * m * modInv(m, n)) % (m * n)
@@ -81,12 +114,10 @@ def isPrimeList():
     if len(_isPrime) < 10:
         sieve()
     return _isPrime
-            
-# run Miller-Rabin primality test k times
+
 def probablePrime(n, k):
     pass
 
-# return a map from primes to exponents in the prime factorization of n
 def factorize(n):
     primes = primeList()
     primev = isPrimeList()
@@ -104,8 +135,6 @@ def factorize(n):
         r[n] = r.get(n, 0) + 1
     return r
 
-# return the exponents of the prime factorization of n (up to the sieve size)
-# if n includes a prime larger than the sieve size, result[-1] will be 0
 def primeExponents(n):
     primes = primeList()
     primev = isPrimeList()
@@ -121,8 +150,7 @@ def primeExponents(n):
     if n != 1:
         r.append(0)
     return r
-    
-# return a list of the divisors of n
+
 def divisors(n, sort=True):
     if type(n) is int:
         return divisors(factorize(n))
@@ -142,8 +170,7 @@ def divisors(n, sort=True):
         r.sort()
     return r
     
-    
-# return sum[d|n] d^k
+
 def sigma(n, k):
     v = factorize(n)
     r = 1
@@ -154,7 +181,7 @@ def sigma(n, k):
             r *= e+1
     return r
 
-# return sum[p^e||n, e != 0] e^k
+
 def omega(n, k):
     v = factorize(n)
     r = 0
@@ -217,7 +244,6 @@ def permute(n, r):
 
 # computer science
 
-# note: nextPermutation and prevPermutation do not work with strings
 def nextPermutation(v):
     i = len(v) - 1
     while i > 0 and v[i-1] >= v[i]:
