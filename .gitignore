@@ -105,4 +105,4 @@ venv.bak/
 
 # Custom ignore
 Ignore/
-test.py
+test*
