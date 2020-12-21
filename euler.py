@@ -31,6 +31,7 @@ factorial(n)            return the factorial of n
 permute(n, r)           return n permute r
 choose(n, r)            return n choose r
 
+toBase(n, b)            return an integer n as a string in base b
 nextPermutation(v)      return the next permutation of v
 prevPermutation(v)      return the previous permutation of v\
 """
@@ -275,6 +276,14 @@ def permute(n, r):
 
 # computer science
 
+def toBase(n, b):
+    res = ""
+    digits = "0123456789abcdefghijklmnopqrstuvwxyz"
+    while n > 0:
+        res += digits[n % b]
+        n //= b
+    return res[::-1]
+
 def nextPermutation(v):
     i = len(v) - 1
     while i > 0 and v[i-1] >= v[i]:
@@ -283,11 +292,11 @@ def nextPermutation(v):
         return False
 
     j = len(v) - 1
-    while v[j] <= v[i -1]:
+    while v[j] <= v[i-1]:
         j = j - 1
-    v[i-1],v[j] = v[j],v[i-1]
+    v[i-1], v[j] = v[j], v[i-1]
 
-    v[i:] = v[len(v) - 1 : i-1 : -1]
+    v[i:] = v[len(v)-1 : i-1 : -1]
     return True
 
 def prevPermutation(v):
@@ -298,11 +307,9 @@ def prevPermutation(v):
         return False
 
     j = len(v) - 1
-    while v[j] >= v[i -1]:
+    while v[j] >= v[i-1]:
         j = j - 1
-    v[i-1],v[j] = v[j],v[i-1]
+    v[i-1], v[j] = v[j], v[i-1]
 
-    v[i:] = v[len(v) - 1 : i-1 : -1]
+    v[i:] = v[len(v)-1 : i-1 : -1]
     return True
-    
-    
