@@ -1,4 +1,5 @@
 import math
+import random
 
 # documentation
 
@@ -31,7 +32,7 @@ permute(n, r)           return n permute r
 choose(n, r)            return n choose r
 
 nextPermutation(v)      return the next permutation of v
-prevPermutatoin(v)      return the previous permutation of v\
+prevPermutation(v)      return the previous permutation of v\
 """
 
 # number theory
@@ -115,18 +116,49 @@ def isPrimeList():
         sieve()
     return _isPrime
 
+def _preProbablePrime(n, v):
+    for d in v:
+        if n % d == 0:
+            return False
+    return True
+
 def probablePrime(n, k):
-    pass
+    smallPrimes = [2, 3, 5, 7, 11, 13, 17]
+    if n in smallPrimes:
+        return True
+    if n < 2 or not _preProbablePrime(n, smallPrimes):
+        return False
+
+    d = n - 1
+    r = 0
+
+    while d % 2 == 0:
+        d //= 2
+        r += 1
+
+    for i in range(k):
+        a = random.randint(2, n-2)
+        x = pow(a, d, n)
+        if x == 1 or x == n - 1:
+            continue
+        for _ in range(r-1):
+            x = x * x % n
+            if x == n - 1:
+                continue
+        else:
+            continue
+        return False
+    return True
 
 def factorize(n):
     primes = primeList()
-    primev = isPrimeList()
+    primeV = isPrimeList()
     
     r = {}
     for p in primes:
         if p ** 2 > n:
             break
-        if n < len(primev) and primev[n]:
+        if n < len(primeV) and primeV[n]:
             break
         while n % p == 0:
             r[p] = r.get(p, 0) + 1
@@ -137,7 +169,6 @@ def factorize(n):
 
 def primeExponents(n):
     primes = primeList()
-    primev = isPrimeList()
     
     r = []
     for p in primes:
