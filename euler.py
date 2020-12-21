@@ -142,13 +142,14 @@ def probablePrime(n, k):
         x = pow(a, d, n)
         if x == 1 or x == n - 1:
             continue
+        composite = True
         for _ in range(r-1):
             x = x * x % n
             if x == n - 1:
-                continue
-        else:
-            continue
-        return False
+                composite = False
+                break
+        if composite:
+            return False
     return True
 
 def factorize(n):
