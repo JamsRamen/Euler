@@ -290,6 +290,7 @@ def nextPermutation(v):
     while i > 0 and v[i-1] >= v[i]:
         i = i - 1
     if i <= 0:
+        v[:] = v[::-1]
         return False
 
     j = len(v) - 1
@@ -305,6 +306,7 @@ def prevPermutation(v):
     while i > 0 and v[i-1] <= v[i]:
         i = i - 1
     if i <= 0:
+        v[:] = v[::-1]
         return False
 
     j = len(v) - 1
