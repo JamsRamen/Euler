@@ -36,6 +36,14 @@ nextPermutation(v)      return the next permutation of v
 prevPermutation(v)      return the previous permutation of v\
 """
 
+# To add:
+# Pollard Rho factorization
+# general sieve algorithm (divisor and prime)
+# specific sieves for divisor sums, totient, etc.
+# Jordan totient and totient summatory functions
+# maybe sum[0 < d <= n] floor(n / d) f(d)
+
+
 # number theory
 
 def gcd(*arg):
@@ -55,7 +63,7 @@ def gcd(*arg):
         r = gcd(r, arg[i])
     return r
 
-def extendedGcd (a, b):
+def extendedGcd(a, b):
     x, y, u, v = 0, 1, 1, 0
     while a != 0:
         q, r = b//a, b%a
@@ -64,10 +72,10 @@ def extendedGcd (a, b):
         
     return x, y, b
 
-def modInv (n, m):
+def modInv(n, m):
     return extendedGcd(n, m)[0] % m
 
-def crt (x, m, y, n, *args):
+def crt(x, m, y, n, *args):
     if (len(args) == 0):
         return (x * n * modInv(n, m) + y * m * modInv(m, n)) % (m * n)
     else:
