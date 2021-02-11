@@ -41,6 +41,7 @@ prevPermutation(v)      return the previous permutation of v\
 # general sieve algorithm (divisor and prime)
 # specific sieves for divisor sums, totient, etc.
 # Jordan totient and totient summatory functions
+# prime pi function
 # maybe sum[0 < d <= n] floor(n / d) f(d)
 
 
