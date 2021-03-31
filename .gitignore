@@ -104,5 +104,6 @@ venv.bak/
 .mypy_cache/
 
 # Custom ignore
-Ignore/
 test*
+todo.txt
+

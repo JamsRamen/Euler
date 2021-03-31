@@ -13,12 +13,16 @@ sieve(n)                sieve for primes (void return)
 primeList()             return list of primes after sieve
 isPrime(n)              is n prime?
 isPrimeList()           return array v such that v[n] = isPrime(n)
-probablePrime(n, k)     run Miller-Rabin primality test k times
+probablePrime(n, k=30)  run Miller-Rabin primality test k times
 factorize(n)            return a map from primes to exponents
                             in the prime factorization of n
 primeExponents(n)       return the exponents of the prime factorization of n
                             if n includes a prime larger than the sieve size,
                             result[-1] will be 0
+pollardRho(n, x=None)   attempts to find a non-trivial divisor of n using
+                            Pollard's rho algorithm using x as the starting
+                            value, return None if failed, if x is not given,
+                            it is chosen randomly
 divisors(n, s)          return a list of the divisors of n
                             sort if s is true
 sigma(n, k)             return sum[d|n] d^k
@@ -37,7 +41,6 @@ prevPermutation(v)      return the previous permutation of v\
 """
 
 # To add:
-# Pollard Rho factorization
 # general sieve algorithm (divisor and prime)
 # specific sieves for divisor sums, totient, etc.
 # Jordan totient and totient summatory functions
@@ -55,9 +58,9 @@ def gcd(*arg):
         if b < 0:
             b = -b
         
-        if b == 0:
-            return a
-        return gcd(b, a%b)
+        while a != 0 and b != 0:
+            a, b = b, a%b
+        return a+b
     
     r = gcd(arg[0], arg[1])
     for i in range(2, len(arg)):
@@ -132,7 +135,7 @@ def _preProbablePrime(n, v):
             return False
     return True
 
-def probablePrime(n, k):
+def probablePrime(n, k=30):
     smallPrimes = [2, 3, 5, 7, 11, 13, 17]
     if n in smallPrimes:
         return True
@@ -212,6 +215,32 @@ def divisors(n, sort=True):
         r.sort()
     return r
     
+
+def pollardRho(n, x=None):
+    if n < 0: n = -n
+    if n < 10**4:
+        if n < 2 or isPrime(n):
+            return None
+        return next(iter(factorize(n)))
+
+    if x == None:
+        x = random.randint(2, n-2)
+
+    def g(z):
+        return (z**2 + 1) % n
+
+    y = x
+    d = 1
+
+    while d == 1:
+        x = g(x)
+        y = g(g(y))
+        d = gcd(abs(x-y), n)
+
+    if d == n:
+        return None
+    return d
+
 
 def sigma(n, k):
     v = factorize(n)
@@ -325,3 +354,4 @@ def prevPermutation(v):
 
     v[i:] = v[len(v)-1 : i-1 : -1]
     return True
+
