@@ -297,6 +297,8 @@ def factorial(n):
 def choose(n, r):
     if 2*r > n:
         return choose(n, n-r)
+    if r < 0:
+        return 0
     
     res = 1
     
