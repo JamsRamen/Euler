@@ -34,6 +34,7 @@ radical(n)              return the radical of n
 factorial(n)            return the factorial of n
 permute(n, r)           return n permute r
 choose(n, r)            return n choose r
+multinom(*v) or (v)     return the multinomial coefficient given a list v
 
 toBase(n, b)            return an integer n as a string in base b
 nextPermutation(v)      return the next permutation of v
@@ -309,9 +310,18 @@ def choose(n, r):
     return res
 
 def permute(n, r):
-    r = 1
-    for i in range(n-r, n+1):
-        r *= i
+    res = 1
+    for i in range(n-r+1, n+1):
+        res *= i
+    return res
+
+def multinom(*v):
+    if len(v) == 1: v = v[0]
+    j = v.index(max(v))
+    r = permute(sum(v), sum(v) - v[j])
+    for i in range(len(v)):
+        if i != j:
+            r //= factorial(v[i])
     return r
 
 
