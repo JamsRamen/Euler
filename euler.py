@@ -179,7 +179,9 @@ def factorize(n):
             r[p] = r.get(p, 0) + 1
             n //= p
     if n != 1:
-        r[n] = r.get(n, 0) + 1
+        f = rhoFactorize(n)
+        for x in f:
+            r[x] = r.get(x, 0) + f[x]
     return r
 
 def primeExponents(n):
@@ -241,6 +243,23 @@ def pollardRho(n, x=None):
     if d == n:
         return None
     return d
+
+def rhoFactorize(n):
+    if n == 1:
+        return {}
+    if probablePrime(n):
+        return {n: 1}
+    a = None
+    while a == None:
+        a = pollardRho(n)
+    f = rhoFactorize(a)
+    g = rhoFactorize(n//a)
+    r = {}
+    for x in f:
+        r[x] = r.get(x, 0) + f[x]
+    for x in g:
+        r[x] = r.get(x, 0) + g[x]
+    return r
 
 
 def sigma(n, k):
